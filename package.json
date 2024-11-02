@@ -22,7 +22,7 @@
     "axios": "^1.7.7",
     "deprecated-react-native-prop-types": "^5.0.0",
     "expo": "^49.0.0",
-    "expo-cli": "^4.0.17",
+    "expo-cli": "^6.3.12",
     "expo-device": "~5.4.0",
     "expo-router": "^2.0.0",
     "expo-splash-screen": "~0.20.5",
