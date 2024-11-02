@@ -40,7 +40,7 @@ import { UserType } from "../../context/UserContext";
 
 const HomeScreen = () => {
   
-  const [products, setProducts] = useState([]);
+
   const navigation = useNavigation();
   const [open, setOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
@@ -48,27 +48,7 @@ const HomeScreen = () => {
   const { userId, setUserId } = useContext(UserType);
   const [selectedAddress,setSelectedAdress] = useState("");
   console.log(selectedAddress)
-  const [items, setItems] = useState([
-    { label: "Men's clothing", value: "men's clothing" },
-    { label: "jewelery", value: "jewelery" },
-    { label: "electronics", value: "electronics" },
-    { label: "women's clothing", value: "women's clothing" },
-  ]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://fakestoreapi.com/products");
-        setProducts(response.data);
-      } catch (error) {
-        console.log("error message", error);
-      }
-    };
 
-    fetchData();
-  }, []);
-  const onGenderOpen = useCallback(() => {
-    setCompanyOpen(false);
-  }, []);
 
   const cart = useSelector((state) => state.cart.cart);
   const [modalVisible, setModalVisible] = useState(false);
@@ -169,7 +149,7 @@ const HomeScreen = () => {
             <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
           </Pressable>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {/* <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {list.map((item, index) => (
               <Pressable
                 key={index}
@@ -196,9 +176,9 @@ const HomeScreen = () => {
                 </Text>
               </Pressable>
             ))}
-          </ScrollView>
+          </ScrollView> */}
 
-          <SliderBox
+          {/* <SliderBox
             images={images}
             autoPlay
             circleLoop
@@ -209,191 +189,39 @@ const HomeScreen = () => {
 
           <Text style={{ padding: 10, fontSize: 18, fontWeight: "bold" }}>
             Trending Deals of the week
-          </Text>
+          </Text> */}
 
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            {deals.map((item, index) => (
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("Info", {
-                    id: item.id,
-                    title: item.title,
-                    price: item?.price,
-                    carouselImages: item.carouselImages,
-                    color: item?.color,
-                    size: item?.size,
-                    oldPrice: item?.oldPrice,
-                    item: item,
-                  })
-                }
-                style={{
-                  marginVertical: 10,
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  style={{ width: 180, height: 180, resizeMode: "contain" }}
-                  source={{ uri: item?.image }}
-                />
-              </Pressable>
-            ))}
-          </View>
-
-          <Text
-            style={{
-              height: 1,
-              borderColor: "#D0D0D0",
-              borderWidth: 2,
-              marginTop: 15,
-            }}
-          />
-
-          <Text style={{ padding: 10, fontSize: 18, fontWeight: "bold" }}>
-            Today's Deals
-          </Text>
-
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {offers.map((item, index) => (
-              <Pressable
-                onPress={() =>
-                  navigation.navigate("Info", {
-                    id: item.id,
-                    title: item.title,
-                    price: item?.price,
-                    carouselImages: item.carouselImages,
-                    color: item?.color,
-                    size: item?.size,
-                    oldPrice: item?.oldPrice,
-                    item: item,
-                  })
-                }
-                style={{
-                  marginVertical: 10,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Image
-                  style={{ width: 150, height: 150, resizeMode: "contain" }}
-                  source={{ uri: item?.image }}
-                />
-
-                <View
-                  style={{
-                    backgroundColor: "#E31837",
-                    paddingVertical: 5,
-                    width: 130,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 10,
-                    borderRadius: 4,
-                  }}
-                >
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      color: "white",
-                      fontSize: 13,
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Upto {item?.offer}
-                  </Text>
-                </View>
-              </Pressable>
-            ))}
-          </ScrollView>
-
-          <Text
-            style={{
-              height: 1,
-              borderColor: "#D0D0D0",
-              borderWidth: 2,
-              marginTop: 15,
-            }}
-          />
-
-          {/* <View
-            style={{
-              marginHorizontal: 10,
-              marginTop: 20,
-              width: "45%",
-              marginBottom: open ? 50 : 15,
-            }}
-          >
-            <DropDownPicker
-              style={{
-                borderColor: "#B7B7B7",
-                height: 30,
-                marginBottom: open ? 120 : 15,
-              }}
-              open={open}
-              value={category} //genderValue
-              items={items}
-              setOpen={setOpen}
-              setValue={setCategory}
-              setItems={setItems}
-              placeholder="choose category"
-              placeholderStyle={styles.placeholderStyles}
-              onOpen={onGenderOpen}
-              // onChangeValue={onChange}
-              zIndex={3000}
-              zIndexInverse={1000}
-            />
-          </View> */}
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            {products
-              ?.filter((item) => item.category === category)
-              .map((item, index) => (
-                <ProductItem item={item} key={index} />
-              ))}
-          </View>
         </ScrollView>
-      </SafeAreaView>
 
-      <BottomModal
-        onBackdropPress={() => setModalVisible(!modalVisible)}
-        swipeDirection={["up", "down"]}
-        swipeThreshold={200}
-        modalAnimation={
-          new SlideAnimation({
-            slideFrom: "bottom",
-          })
-        }
-        onHardwareBackPress={() => setModalVisible(!modalVisible)}
-        visible={modalVisible}
-        onTouchOutside={() => setModalVisible(!modalVisible)}
-      >
-        <ModalContent style={{ width: "100%", height: 400 }}>
-          <View style={{ marginBottom: 8 }}>
-            <Text style={{ fontSize: 16, fontWeight: "500" }}>
-              Choose your Location
-            </Text>
+        <BottomModal
+          onBackdropPress={() => setModalVisible(!modalVisible)}
+          swipeDirection={["up", "down"]}
+          swipeThreshold={200}
+          modalAnimation={
+            new SlideAnimation({
+              slideFrom: "bottom",
+            })
+          }
+          onHardwareBackPress={() => setModalVisible(!modalVisible)}
+          visible={modalVisible}
+          onTouchOutside={() => setModalVisible(!modalVisible)}
+        >
+          <ModalContent style={{ width: "100%", height: 400 }}>
+            <View style={{ marginBottom: 8 }}>
+              <Text style={{ fontSize: 16, fontWeight: "500" }}>
+                Choose your Location
+              </Text>
 
-            <Text style={{ marginTop: 5, fontSize: 16, color: "gray" }}>
-              Select a delivery location to see product availabilty and delivery
-              options
-            </Text>
-          </View>
+              <Text style={{ marginTop: 5, fontSize: 16, color: "gray" }}>
+                Select a delivery location to see product availabilty and delivery
+                options
+              </Text>
+            </View>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {/* already added addresses */}
-            {addresses?.map((item, index) => (
-              <Pressable
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {/* already added addresses */}
+              {addresses?.map((item, index) => (
+                <Pressable
               onPress={() => setSelectedAdress(item)}
                 style={{
                   width: 140,
@@ -497,8 +325,9 @@ const HomeScreen = () => {
               </Text>
             </View>
           </View>
-        </ModalContent>
-      </BottomModal>
+          </ModalContent>
+        </BottomModal>
+      </SafeAreaView>
     </>
   );
 };
@@ -506,3 +335,6 @@ const HomeScreen = () => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({});
+
+
+
